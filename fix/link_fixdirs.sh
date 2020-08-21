@@ -28,7 +28,7 @@ if [ $RUN_ENVIR != emc -a $RUN_ENVIR != nco ]; then
     exit 1
 fi
 
-if [ $machine != wcoss2 -a $machine != hera -a $machine != jet -a $machine != orion -a $machine != s4 ]; then
+if [ $machine != gaea -a $machine != wcoss2 -a $machine != hera -a $machine != jet -a $machine != orion -a $machine != s4 ]; then
     set +x
     echo '***ERROR*** unsupported machine'
     echo 'Syntax: link_fv3gfs.sh ( nco | emc ) ( wcoss2 | hera | jet | orion | s4 )'
@@ -54,6 +54,8 @@ elif [ $machine = "wcoss2" ]; then
     FIX_DIR="/lfs/h2/emc/global/noscrub/emc.global/FIX/fix"
 elif [ $machine = "s4" ]; then
     FIX_DIR="/data/prod/glopara/fix"
+elif [ $machine = "gaea" ]; then
+    FIX_DIR="/lustre/f2/pdata/gfdl/gfdl_W/fvGFS_INPUT_DATA/emc.glopara/fix"
 fi
 
 am_ver=${am_ver:-20220805}
