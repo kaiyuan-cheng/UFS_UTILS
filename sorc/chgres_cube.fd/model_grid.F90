@@ -1374,11 +1374,11 @@
  call netcdf_err(error, 'reading slmsk')
  mask = nint(dummy)
 
- print*,"- READ RAW OROGRAPHY."
- error=nf90_inq_varid(ncid, 'orog_raw', id_var)
- call netcdf_err(error, 'reading orog_raw id')
+ print*,"- READ FILTERED OROGRAPHY."
+ error=nf90_inq_varid(ncid, 'orog_filt', id_var)
+ call netcdf_err(error, 'reading orog_filt id')
  error=nf90_get_var(ncid, id_var, dummy)
- call netcdf_err(error, 'reading orog_raw')
+ call netcdf_err(error, 'reading orog_filt')
  terrain = dummy
 
  error = nf90_close(ncid)
