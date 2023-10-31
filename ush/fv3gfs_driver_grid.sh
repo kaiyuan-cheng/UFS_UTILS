@@ -102,7 +102,7 @@ export out_dir=${out_dir:?}
 export home_dir=${home_dir:-"$PWD/../"}
 export script_dir=$home_dir/ush
 export exec_dir=${exec_dir:-"$home_dir/exec"}
-export topo=$home_dir/fix/orog_raw
+export topo=$home_dir/fix/fix_orog
 
 export NCDUMP=${NCDUMP:-ncdump}
 
@@ -142,11 +142,7 @@ if [ $gtype = uniform ] || [ $gtype = stretch ] || [ $gtype = nest ];  then
   out_dir=$out_dir/C${res}
   mkdir -p $out_dir
 
-  if [ $gtype = nest ]; then
-    filter_dir=$orog_dir   # nested grid topography will be filtered online
-  else
-    filter_dir=$TEMP_DIR/$name/filter_topo
-  fi
+  filter_dir=$TEMP_DIR/$name/filter_topo
 
   rm -rf $TEMP_DIR/$name                  
   mkdir -p $grid_dir $orog_dir $filter_dir
@@ -224,6 +220,27 @@ if [ $gtype = uniform ] || [ $gtype = stretch ] || [ $gtype = nest ];  then
     if [ $err != 0 ]; then
       exit $err
     fi
+
+
+  elif [ $gtype = nest ]; then
+
+    export gtype=stretch
+    export ntiles=6
+
+    set +x
+    echo 
+    echo "............ Execute fv3gfs_filter_topo.sh for global domains .............."
+    echo
+    set -x
+    $script_dir/fv3gfs_filter_topo.sh $res $grid_dir $orog_dir $filter_dir
+    err=$?
+    if [ $err != 0 ]; then
+      exit $err
+    fi
+
+    export ntiles=7
+    export gtype=nest
+
 
   fi # run topo filtering
 
