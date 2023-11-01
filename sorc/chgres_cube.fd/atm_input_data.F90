@@ -1560,8 +1560,20 @@ implicit none
 
 ! dzdt   set to zero for now.
 
+ if (myrank <= max_procs-1) then
+   error=nf90_inq_varid(ncid, 'dzdt', id_var)
+   call netcdf_err(error, 'reading dzdt field id' )
+   error=nf90_get_var(ncid, id_var, dummy3d, start=start, count=count)
+   call netcdf_err(error, 'reading dzdt field' )
+ endif
+
+ call mpi_gatherv(dummy3d, iscnt, mpi_real, &
+                  dummy3dall, ircnt, displ, mpi_real, &
+                  0, mpi_comm_world, error)
+ if (error /= 0) call error_handler("IN mpi_gatherv of dzdt", error)
+
  if (myrank == 0) then
-   dummy3dflip = 0.0
+   dummy3dflip(:,:,1:lev_input) = dummy3dall(:,:,lev_input:1:-1)
  endif
 
  print*,"- CALL FieldScatter FOR INPUT GRID DZDT"
