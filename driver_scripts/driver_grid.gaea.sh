@@ -1,10 +1,10 @@
 #!/bin/bash
-#SBATCH --ntasks=24 
+#SBATCH --ntasks=48 
 #SBATCH --output=./%x.o%j
 #SBATCH --cluster=c5
-#SBATCH --qos=debug
+#SBATCH --qos=normal
 #SBATCH --account=gfdl_w
-#SBATCH --time=1:00:00
+#SBATCH --time=2:00:00
 
 
 #-----------------------------------------------------------------------
@@ -70,7 +70,7 @@ module list
 # Set grid specs here.
 #-----------------------------------------------------------------------
 
-export gtype=nest     # 'uniform', 'stretch', 'nest', 
+export gtype=uniform     # 'uniform', 'stretch', 'nest', 
                                # 'regional_gfdl', 'regional_esg'
 
 export make_gsl_orog=false    # When 'true' will output 'oro' files for 
@@ -103,7 +103,7 @@ export soil_type_src="bnu.v3.30s" #  Soil type data.
                                 # 5) "statsgo.30s" for global 30s data
 
 if [ $gtype = uniform ]; then
-  export res=96
+  export res=3072
   export add_lake=false        # Add lake frac and depth to orography data.
   export lake_cutoff=0.20      # lake frac < lake_cutoff ignored when add_lake=T
 elif [ $gtype = stretch ]; then
@@ -156,7 +156,7 @@ export out_dir=/lustre/f2/scratch/$LOGNAME/my_grids
 
 export APRUN=time
 export APRUN_SFC=srun
-export OMP_NUM_THREADS=24
+export OMP_NUM_THREADS=48
 export OMP_STACKSIZE=2048m
 export machine=GAEA
 
