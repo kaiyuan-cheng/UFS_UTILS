@@ -1982,9 +1982,9 @@ contains
 
   real,dimension(1:nres) :: cube_res=(/48.,96.,128.,192.,384.,768.,1152.,3072./)
 
-  real,dimension(1:nres) :: n_del2_weak_vals=(/4.,8.,8.,12.,12.,16.,20.,24./)
+  real,dimension(1:nres) :: n_del2_weak_vals=(/4.,8.,8.,12.,12.,16.,20.,10./)
   real,dimension(1:nres) :: cd4_vals        =(/0.12,0.12,0.13,0.15,0.15,0.15,0.15,0.15/)
-  real,dimension(1:nres) :: max_slope_vals  =(/0.12,0.12,0.12,0.12,0.12,0.12,0.16,0.30/)
+  real,dimension(1:nres) :: max_slope_vals  =(/0.12,0.12,0.12,0.12,0.12,0.12,0.16,0.12/)
   real,dimension(1:nres) :: peak_fac_vals   =(/1.1,1.1,1.1,1.05,1.0,1.0,1.0,1.0/)
 
   if(res<cube_res(1))then
