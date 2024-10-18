@@ -27,11 +27,11 @@ if (! $?CDATE) then
 # 2016080100 for gfs_sigio
   set CDATE=2016080100 
 endif
-set ICDIR=/lustre/f2/dev/${USER}/SHiELD_IC/NEST_C${res}
+set ICDIR=/gpfs/f5/gfdl_w/world-shared/${USER}/SHiELD_IC/NEST_C${res}
 set UTILSDIR=/ncrc/home2/Kai-yuan.Cheng/software/UFS_UTILS
-set GRIDDIR=/lustre/f2/dev/gfdl/Kai-yuan.Cheng/UFS_UTILS_RETRO_DATA/my_grids/NEST_C${res}
-set GFSANLDIR=/lustre/f2/dev/gfdl/Kai-yuan.Cheng/UFS_UTILS_RETRO_DATA/GFSvOPER
-set WORKDIR=/lustre/f2/scratch/gfdl/${USER}/wrk.chgres
+set GRIDDIR=/gpfs/f5/gfdl_w/world-shared/Kai-yuan.Cheng/UFS_UTILS_RETRO_DATA/my_grids/NEST_C${res}
+set GFSANLDIR=/gpfs/f5/gfdl_w/world-shared/Kai-yuan.Cheng/UFS_UTILS_RETRO_DATA/GFSvOPER
+set WORKDIR=/gpfs/f5/gfdl_w/world-shared/${USER}/wrk.chgres
 
 # probably don't have to change anything below here.
 

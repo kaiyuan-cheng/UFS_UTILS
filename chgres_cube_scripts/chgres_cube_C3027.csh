@@ -1,6 +1,6 @@
 #!/bin/tcsh
-#SBATCH --ntasks=72
-#SBATCH --ntasks-per-node=12
+#SBATCH --ntasks=288
+#SBATCH --ntasks-per-node=48
 #SBATCH --output=./%x.o%j
 #SBATCH --cluster=c5
 #SBATCH --qos=normal
@@ -22,13 +22,13 @@ set res=3072
 # analysislevfile: vertical levels of the IC. Use the same as the GFS analysis is recommended.
 set analysislevfile='global_hyblev.l65.txt'
 if (! $?CDATE) then
-  set CDATE=2019102000 
+  set CDATE=2020080100 
 endif
-set ICDIR=/lustre/f2/dev/${USER}/SHiELD_IC/GLOBAL_C${res}_v20231101
+set ICDIR=/gpfs/f5/gfdl_w/world-shared/${USER}/SHiELD_IC/GLOBAL_C${res}
 set UTILSDIR=/ncrc/home2/Kai-yuan.Cheng/software/UFS_UTILS
 set GRIDDIR=$ICDIR/GRID
-set GFSANLDIR=/lustre/f2/dev/Kai-yuan.Cheng/ANALYSIS/GFS/2019/201910
-set WORKDIR=/lustre/f2/scratch/gfdl/${USER}/wrk.chgres
+set GFSANLDIR=/gpfs/f5/gfdl_w/world-shared/Kai-yuan.Cheng/UFS_UTILS_RETRO_DATA/GFSvOPER
+set WORKDIR=/gpfs/f5/gfdl_w/world-shared/${USER}/wrk.chgres
 
 # probably don't have to change anything below here.
 
@@ -71,7 +71,7 @@ set RANDEXT=`cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 5 | head -n 1`
 set WORKDIR=$WORKDIR/chgres_cube_$RANDEXT
 
 # clean up and create folders
-set CASEDIR=${ICDIR}/${ymd}.${hh}Z_IC_DEBUG
+set CASEDIR=${ICDIR}/${ymd}.${hh}Z_IC
 rm -fr $CASEDIR
 mkdir -p $CASEDIR
 

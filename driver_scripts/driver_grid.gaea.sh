@@ -1,10 +1,10 @@
 #!/bin/bash
-#SBATCH --ntasks=48 
+#SBATCH --ntasks=48
 #SBATCH --output=./%x.o%j
 #SBATCH --cluster=c5
-#SBATCH --qos=normal
+#SBATCH --qos=debug
 #SBATCH --account=gfdl_w
-#SBATCH --time=2:00:00
+#SBATCH --time=0:60:00
 
 
 #-----------------------------------------------------------------------
@@ -70,7 +70,7 @@ module list
 # Set grid specs here.
 #-----------------------------------------------------------------------
 
-export gtype=uniform     # 'uniform', 'stretch', 'nest', 
+export gtype=uniform  # 'uniform', 'stretch', 'nest', 
                                # 'regional_gfdl', 'regional_esg'
 
 export make_gsl_orog=false    # When 'true' will output 'oro' files for 
@@ -103,7 +103,7 @@ export soil_type_src="bnu.v3.30s" #  Soil type data.
                                 # 5) "statsgo.30s" for global 30s data
 
 if [ $gtype = uniform ]; then
-  export res=3072
+  export res=384
   export add_lake=false        # Add lake frac and depth to orography data.
   export lake_cutoff=0.20      # lake frac < lake_cutoff ignored when add_lake=T
 elif [ $gtype = stretch ]; then
@@ -147,8 +147,8 @@ fi
 #-----------------------------------------------------------------------
 
 export home_dir=$SLURM_SUBMIT_DIR/..
-export TEMP_DIR=/lustre/f2/scratch/$LOGNAME/fv3_grid.$gtype
-export out_dir=/lustre/f2/scratch/$LOGNAME/my_grids
+export TEMP_DIR=/gpfs/f5/gfdl_w/world-shared/$LOGNAME/fv3_grid.$gtype
+export out_dir=/gpfs/f5/gfdl_w/world-shared/$LOGNAME/my_grids
 
 #-----------------------------------------------------------------------
 # Should not need to change anything below here.
@@ -186,7 +186,7 @@ fi
 
 if [ $gtype = nest ] ; then
   out_dir_nest=$out_dir
-  export out_dir=/lustre/f2/scratch/$LOGNAME/regional_grid_tmp
+  export out_dir=/gpfs/f5/gfdl_w/world-shared/$LOGNAME/regional_grid_tmp
 
   # create a regional grid that is exactly the same as the nested domain and filter it 
   export gtype=regional_gfdl
@@ -197,7 +197,7 @@ if [ $gtype = nest ] ; then
   mv $orog_filt $out_dir_nest/C${res}/C${res}_oro_data.tile7.nc
   
   # replace fix files 
-  fix_files=("facsf" "maximum_snow_albedo" "slope_type" "snowfree_albedo" "soil_type" "substrate_temperature" "vegetation_greenness" "vegetation_type")
+  fix_files=("facsf" "maximum_snow_albedo" "slope_type" "snowfree_albedo" "soil_type" "substrate_temperature" "vegetation_greenness" "vegetation_type" "soil_color")
 
   for val in ${fix_files[*]}; do
     fix_file=$(find $out_dir  -iname "*$val.tile7.halo0.nc" -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d" ")
